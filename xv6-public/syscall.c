@@ -127,7 +127,7 @@ static int (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
-[SYS_shutdown] sys_shutdown
+[SYS_shutdown] sys_shutdown,
 };
 
 void
@@ -144,10 +144,4 @@ syscall(void)
             curproc->pid, curproc->name, num);
     curproc->tf->eax = -1;
   }
-}
-
-
-int sys_shutdown(void){
-    outw(0x604,0x2000);
-    return 0;
 }
