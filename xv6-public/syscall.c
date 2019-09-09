@@ -104,6 +104,7 @@ extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_shutdown(void);
+extern int sys_reboot(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -128,16 +129,18 @@ static int (*syscalls[])(void) = {
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
 [SYS_shutdown] sys_shutdown,
+[SYS_reboot] sys_reboot,
 };
+//char* names[]={};
 
 void
 syscall(void)
 {
   int num;
   struct proc *curproc = myproc();
-
   num = curproc->tf->eax;
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
+    //cprintf("%s -> %d",names,num);
     curproc->tf->eax = syscalls[num]();
   } else {
     cprintf("%d %s: unknown sys call %d\n",
